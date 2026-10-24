@@ -1,0 +1,287 @@
+/* ==========================================================
+   Fusion Fashion - light theme based on the logo colors
+   Navy #1B3B6F · Charcoal #4A4A4A · Light grey #F4F5F7
+   Loaded after main.css.
+
+   Note: in main.css "--white" is the main TEXT color and
+   "--black" is the text color on theme-colored buttons,
+   so they are re-pointed here instead of renamed.
+   ========================================================== */
+
+:root {
+    --navy: #1B3B6F;
+    --navy-dark: #132B52;
+    --navy-light: #2F5A9E;
+    --navy-rgb: 27, 59, 111;
+    --charcoal: #4A4A4A;
+    --ink: #1F2633;
+    --muted: #5E6573;
+    --surface: #FFFFFF;
+    --surface-alt: #F4F5F7;
+    --line: #E3E6EC;
+
+    --theme: var(--navy);
+    --white: var(--ink);
+    --black: #FFFFFF;
+    --bg1: var(--surface);
+    --bg2: var(--surface-alt);
+    --bg3: var(--surface);
+    --border1: var(--line);
+    --pra-clr: var(--muted);
+    --spantext: var(--muted);
+    --place: #8A909C;
+    --dd-clr: var(--muted);
+    --bspan: var(--muted);
+    --title: var(--ink);
+}
+
+body {
+    background-color: var(--surface-alt);
+    color: var(--ink);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--ink);
+}
+
+.pra-clr {
+    color: var(--muted) !important;
+}
+.cmn-border {
+    border: 1px solid var(--line) !important;
+}
+.radius-btn.cmn-border {
+    border-color: rgba(var(--navy-rgb), 0.25) !important;
+    background: rgba(var(--navy-rgb), 0.06);
+}
+
+/* Italic / light words in headings use the logo grey */
+h1 .regular,
+h2 .regular,
+.stitle .regular,
+.stitle .fw-400 {
+    color: var(--charcoal);
+}
+
+/* ---------- Header ---------- */
+.header-section {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 var(--line);
+}
+.header-section .main-navbar .custom-nav .sub-menu {
+    background: var(--surface) !important;
+    border-radius: 12px;
+    box-shadow: 0 18px 40px rgba(var(--navy-rgb), 0.15);
+}
+.header-section .navbar-toggle-btn span {
+    background: var(--navy) !important;
+}
+
+/* ---------- Hero & page banners (dark images replaced) ---------- */
+/* Transparent so the animated page background shows through */
+.hero-section-version2,
+.breadcrumnd-banner {
+    background: transparent !important;
+}
+.hero-section-version2 .hero-v2-content .customer-active {
+    color: var(--navy);
+}
+.breadcrumnd-banner .breadcrumnd {
+    background: var(--surface);
+    box-shadow: 0 6px 20px rgba(var(--navy-rgb), 0.08);
+}
+/* Decorative dots/arrows/lines were made for a dark page */
+.hero-v2-element,
+.cmn-dots {
+    opacity: 0.25;
+    filter: invert(1);
+}
+.hero-v2-arrow {
+    opacity: 0.35;
+    filter: hue-rotate(160deg) saturate(2) brightness(0.6);
+}
+/* Inline SVG gradients used the old lime color */
+stop[stop-color="#E3FF04" i] {
+    stop-color: var(--navy-light);
+}
+/* Inline SVG icons drawn with the old lime color */
+[stroke="#E3FF04" i] {
+    stroke: var(--navy);
+}
+[fill="#E3FF04" i] {
+    fill: var(--navy);
+}
+
+/* ---------- Sections & cards ---------- */
+main .bg1-clr,
+.home-blog-version1 {
+    background: transparent !important;
+}
+.offer-item,
+.blog-widget-item,
+.offer-sectionv04 .offer-item {
+    background: var(--surface) !important;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(var(--navy-rgb), 0.06);
+}
+.blog-widget-item {
+    padding: 16px;
+}
+.offer-item .icon {
+    color: var(--navy);
+}
+.offer-item .seri {
+    color: rgba(var(--navy-rgb), 0.35) !important;
+}
+.offer-item .white-clr,
+.offer-item h5 {
+    color: var(--ink) !important;
+}
+.offer-item a.white-clr,
+.offer-item a.white-clr i {
+    color: var(--navy) !important;
+}
+.about-count h2 {
+    color: var(--navy);
+}
+.sponsor-inner img {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Accordions (FAQ & services) */
+.accordion-single,
+.service-tabing-wrap .accordion-single {
+    background: var(--surface) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 14px;
+    padding: 18px 24px !important;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(var(--navy-rgb), 0.05);
+}
+.service-tabing-wrap .accordion-single .accordion-btn::after {
+    background: rgba(var(--navy-rgb), 0.08) !important;
+    color: var(--navy) !important;
+}
+
+/* Progress bars */
+.progress-solving {
+    background: var(--line) !important;
+}
+
+/* Forms */
+input,
+textarea,
+select,
+.form-select {
+    background-color: var(--surface) !important;
+    color: var(--ink) !important;
+    border-color: var(--line) !important;
+}
+input::placeholder,
+textarea::placeholder {
+    color: #9AA0AA !important;
+}
+.contact-content form .submit-btn,
+.submit-btn {
+    background: var(--navy) !important;
+    color: #FFFFFF !important;
+    border-color: var(--navy) !important;
+}
+
+/* Buttons that sat on a dark page */
+.touch-btn {
+    border-color: var(--navy) !important;
+}
+.radius-btn.style-2 {
+    color: var(--navy);
+}
+.base-btn,
+.cmn-btn {
+    color: #FFFFFF;
+}
+
+/* Badges in the footer tag cloud */
+.badge.badge-secondary {
+    background: rgba(var(--navy-rgb), 0.06);
+    border-color: rgba(var(--navy-rgb), 0.2) !important;
+    color: var(--navy) !important;
+}
+
+/* ---------- Footer: navy band so the page ends strongly ---------- */
+footer,
+footer.bg1-clr {
+    background:
+        radial-gradient(circle at 90% 0%, rgba(255, 255, 255, 0.08), transparent 40%),
+        var(--navy-dark) !important;
+}
+footer stop {
+    stop-color: #9FB7E0 !important;
+}
+footer .common-social li a {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 10px;
+}
+footer .common-social li a svg path {
+    fill: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+}
+footer .common-social li a:hover {
+    background: #FFFFFF !important;
+    border-color: #FFFFFF !important;
+}
+footer .common-social li a:hover svg path {
+    fill: var(--navy) !important;
+    stroke: var(--navy) !important;
+}
+footer .footer-bottom-version-two.bg2-clr {
+    background: rgba(0, 0, 0, 0.18) !important;
+}
+footer .theme-clr {
+    color: #FFFFFF !important;
+    font-weight: 600;
+}
+footer .badge.badge-secondary.pra-clr {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+footer,
+footer p,
+footer span,
+footer li,
+footer a,
+footer h1, footer h2, footer h3, footer h4, footer h5, footer h6,
+footer .white-clr,
+footer .pra-clr {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+footer a:hover,
+footer ul li a:hover {
+    color: #FFFFFF !important;
+}
+footer .badge.badge-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+footer .footer-title,
+footer .footer-v3-title,
+footer h3:not(.badge),
+footer h4,
+footer h5 {
+    color: #FFFFFF !important;
+}
+footer [class*="border"],
+footer .footer-bottom-version-two {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+footer input {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ---------- Preloader ---------- */
+.preloader .loader .loader-section .bg {
+    background-color: var(--surface);
+}

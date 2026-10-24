@@ -1,0 +1,940 @@
+/* ==========================================================
+   Fusion Fashion - animations & friendlier UI
+   Loaded after main.css. Only adds styles, no content changes.
+   ========================================================== */
+
+:root {
+    --ff-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --ff-glow: rgba(var(--navy-rgb), 0.35);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background: var(--theme);
+    color: var(--black);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg1);
+}
+::-webkit-scrollbar-thumb {
+    background: #C3C8D2;
+    border-radius: 10px;
+    border: 2px solid var(--bg1);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--theme);
+}
+
+/* Clear keyboard focus for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--theme);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ---------- Page enter ---------- */
+/* Opacity only, and nothing kept after it ends: a leftover transform on <main>
+   would paint the whole page (and the video) on top of the footer. */
+@keyframes ff-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+.ff-page-enter {
+    animation: ff-fade-in 0.6s ease backwards;
+}
+
+/* ---------- Scroll progress bar ---------- */
+.ff-scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    z-index: 10000;
+    background: linear-gradient(90deg, var(--theme), var(--navy-light));
+    box-shadow: 0 0 10px var(--ff-glow);
+    transition: width 0.1s linear;
+    pointer-events: none;
+}
+
+/* ---------- Header ---------- */
+.header-section {
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+}
+.header-section.header-fixed {
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px rgba(var(--navy-rgb), 0.12);
+}
+.header-section .brand-logo img {
+    transition: transform 0.5s var(--ff-ease);
+}
+.header-section .brand-logo:hover img {
+    transform: rotate(-8deg) scale(1.06);
+}
+
+/* Nav links: animated underline + active state.
+   (main.css already uses ::after for the arrow icon, so the
+   underline is drawn with a background gradient instead.) */
+.custom-nav a.ff-nav-link {
+    display: inline-block;
+    padding-bottom: 4px;
+    background: linear-gradient(var(--theme), var(--theme)) no-repeat right bottom / 0 2px;
+    transition: color 0.3s ease, background-size 0.4s var(--ff-ease);
+}
+.custom-nav a.ff-nav-link:hover,
+.custom-nav a.ff-nav-link.active {
+    background-position: left bottom;
+    background-size: 100% 2px;
+}
+.custom-nav .ff-nav-link:hover,
+.custom-nav .ff-nav-link.active,
+.custom-nav .sub-menu a.active {
+    color: var(--theme) !important;
+}
+
+.custom-nav .sub-menu a {
+    display: inline-block;
+    transition: transform 0.3s var(--ff-ease), color 0.3s ease;
+}
+.custom-nav .sub-menu a:hover {
+    color: var(--theme) !important;
+    transform: translateX(6px);
+}
+
+/* Mobile: menu and dropdowns slide in */
+@keyframes ff-drop {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 991px) {
+    .ff-menu.open,
+    .custom-nav .menu-item.is-open .sub-menu {
+        animation: ff-drop 0.4s var(--ff-ease) both;
+    }
+}
+
+/* WhatsApp icon gentle pulse */
+@keyframes ff-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+    70%  { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+.header-ph img {
+    border-radius: 50%;
+    animation: ff-pulse 2.2s infinite;
+}
+
+/* ---------- Side panel + overlay ---------- */
+.ff-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(19, 43, 82, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 100000;
+}
+.ff-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ff-side {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100001;
+    width: 400px;
+    max-width: 90vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(var(--navy-rgb), 0.10), transparent 45%),
+        linear-gradient(180deg, #FFFFFF 0%, var(--surface-alt) 100%);
+    border-left: 4px solid var(--navy);
+    box-shadow: -20px 0 60px rgba(var(--navy-rgb), 0.25);
+    transform: translateX(105%);
+    visibility: hidden;
+    transition: transform 0.6s var(--ff-ease), visibility 0.6s;
+}
+.ff-side.active {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+/* Top: logo + close */
+.ff-side-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--line);
+}
+.ff-side-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.ff-side-brand span {
+    font-family: var(--jakarta);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+}
+.ff-side-close {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--white);
+    font-size: 18px;
+    transition: transform 0.4s var(--ff-ease), background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.ff-side-close:hover {
+    background: var(--theme);
+    border-color: var(--theme);
+    color: var(--black);
+    transform: rotate(90deg);
+}
+
+/* Body */
+.ff-side-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px;
+}
+.ff-side-about {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--pra-clr);
+    margin-bottom: 28px;
+    padding-left: 16px;
+    border-left: 3px solid var(--theme);
+}
+.ff-side-contacts {
+    display: grid;
+    gap: 12px;
+}
+.ff-side-contact {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 14px rgba(var(--navy-rgb), 0.05);
+    transition: transform 0.4s var(--ff-ease), background-color 0.3s ease, border-color 0.3s ease;
+}
+a.ff-side-contact:hover {
+    transform: translateX(-4px);
+    background: rgba(var(--navy-rgb), 0.06);
+    border-color: rgba(var(--navy-rgb), 0.35);
+}
+.ff-side-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: rgba(var(--navy-rgb), 0.12);
+    color: var(--theme);
+    font-size: 18px;
+}
+.ff-side-text {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+.ff-side-text small {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--place);
+}
+.ff-side-text span {
+    font-size: 15px;
+    color: var(--white);
+    word-break: break-word;
+}
+
+/* Bottom button */
+.ff-side-cta {
+    margin: 0 28px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 100px;
+    background: var(--theme);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 16px;
+    transition: transform 0.35s var(--ff-ease), box-shadow 0.35s ease;
+}
+.ff-side-cta i {
+    transition: transform 0.35s var(--ff-ease);
+}
+.ff-side-cta:hover {
+    color: var(--black);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px var(--ff-glow);
+}
+.ff-side-cta:hover i {
+    transform: translateX(5px);
+}
+
+/* Items slide in one after another when the panel opens */
+.ff-side .ff-side-about,
+.ff-side .ff-side-contacts li,
+.ff-side .ff-side-cta {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.5s ease, transform 0.6s var(--ff-ease);
+}
+.ff-side.active .ff-side-about,
+.ff-side.active .ff-side-contacts li,
+.ff-side.active .ff-side-cta {
+    opacity: 1;
+    transform: translateX(0);
+}
+.ff-side.active .ff-side-about { transition-delay: 0.15s; }
+.ff-side.active .ff-side-contacts li:nth-child(1) { transition-delay: 0.25s; }
+.ff-side.active .ff-side-contacts li:nth-child(2) { transition-delay: 0.32s; }
+.ff-side.active .ff-side-contacts li:nth-child(3) { transition-delay: 0.39s; }
+.ff-side.active .ff-side-cta { transition-delay: 0.46s; }
+.ff-side.active .ff-side-cta:hover { transition-delay: 0s; }
+
+@media (max-width: 575px) {
+    .ff-side-top,
+    .ff-side-body {
+        padding: 20px;
+    }
+    .ff-side-cta {
+        margin: 0 20px 20px;
+    }
+}
+
+/* ---------- Buttons ---------- */
+.cmn-btn,
+.radius-btn,
+.explore-more,
+.touch-btn {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s var(--ff-ease), box-shadow 0.35s ease, background-color 0.3s ease, color 0.3s ease !important;
+}
+.cmn-btn:hover,
+.explore-more:hover,
+.touch-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px var(--ff-glow);
+}
+/* Shine sweep on hover */
+.cmn-btn::before,
+.explore-more::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.7s ease;
+    pointer-events: none;
+}
+.cmn-btn:hover::before,
+.explore-more:hover::before {
+    left: 130%;
+}
+
+/* Arrow icons nudge on hover */
+.rot60 {
+    display: inline-block;
+    transition: transform 0.35s var(--ff-ease);
+}
+a:hover .rot60,
+button:hover .rot60 {
+    transform: rotate(45deg) translateY(-2px);
+}
+
+/* ---------- Hero ---------- */
+@keyframes ff-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-14px); }
+}
+@keyframes ff-shimmer {
+    to { background-position: 200% center; }
+}
+.hero-section-version2 .col-lg-4 img {
+    animation: ff-float 6s ease-in-out infinite;
+    box-shadow: 0 25px 60px rgba(var(--navy-rgb), 0.25);
+    transition: transform 0.6s var(--ff-ease);
+}
+.hero-v2-content h1 .d-block {
+    background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 40%, var(--navy-light) 50%, var(--navy) 60%, var(--navy) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: ff-shimmer 5s linear infinite;
+}
+.hero-v2-element {
+    animation: ff-float 8s ease-in-out infinite;
+}
+.hero-v2-arrow {
+    animation: ff-float 7s ease-in-out infinite reverse;
+}
+.customer-active {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 100px;
+    border: 1px solid rgba(var(--navy-rgb), 0.35);
+    background: rgba(var(--navy-rgb), 0.06);
+}
+
+/* ---------- Cards & images ---------- */
+.offer-item,
+.blog-widget-item,
+.about-count,
+.accordion-item,
+.faq-item {
+    transition: transform 0.45s var(--ff-ease), box-shadow 0.45s ease, border-color 0.45s ease, background-color 0.45s ease;
+}
+.offer-item:hover,
+.blog-widget-item:hover {
+    /* --ff-rx / --ff-ry are set by InteractiveEffects for the mouse tilt */
+    transform: perspective(900px) rotateX(var(--ff-rx, 0deg)) rotateY(var(--ff-ry, 0deg)) translateY(-8px);
+    box-shadow: 0 20px 45px rgba(var(--navy-rgb), 0.16), 0 0 0 1px rgba(var(--navy-rgb), 0.25);
+}
+.offer-item .icon svg {
+    transition: transform 0.6s var(--ff-ease), color 0.4s ease;
+}
+.offer-item:hover .icon svg {
+    color: var(--theme);
+    transform: rotate(-10deg) scale(1.12);
+}
+
+/* Image zoom inside cards */
+.thumb,
+.about-product-thumb {
+    overflow: hidden;
+    border-radius: 12px;
+}
+.thumb img,
+.about-product-thumb img {
+    transition: transform 0.9s var(--ff-ease), filter 0.6s ease;
+}
+.blog-widget-item:hover .thumb img,
+.thumb:hover img,
+.about-product-thumb:hover img {
+    transform: scale(1.07);
+    filter: brightness(1.05) saturate(1.1);
+}
+
+/* Client logos */
+.sponsor-inner img {
+    transition: transform 0.4s var(--ff-ease), filter 0.4s ease;
+    filter: grayscale(0.6);
+}
+.sponsor-inner a:hover img {
+    transform: translateY(-5px) scale(1.05);
+    filter: grayscale(0);
+}
+
+/* Footer links slide */
+footer a {
+    transition: color 0.3s ease, padding-left 0.3s var(--ff-ease);
+}
+footer ul li a:hover {
+    padding-left: 4px;
+}
+
+/* Form fields */
+input,
+textarea,
+select {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--theme) !important;
+    box-shadow: 0 0 0 3px rgba(var(--navy-rgb), 0.15) !important;
+}
+
+/* ---------- Back to top ---------- */
+#progress.ff-back-to-top {
+    display: grid !important;
+    place-items: center;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.8);
+    transition: opacity 0.4s ease, transform 0.4s var(--ff-ease), visibility 0.4s, box-shadow 0.3s ease;
+}
+#progress.ff-back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+#progress.ff-back-to-top:hover {
+    box-shadow: 0 0 0 6px var(--ff-glow);
+    transform: translateY(-4px) scale(1.05);
+}
+
+/* ---------- Animated page background ---------- */
+.ff-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Soft drifting color blobs */
+@keyframes ff-blob-drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    33%  { transform: translate(8vw, -6vh) scale(1.15); }
+    66%  { transform: translate(-6vw, 8vh) scale(0.9); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+.ff-bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    animation: ff-blob-drift 24s ease-in-out infinite;
+}
+.ff-bg-blob-1 {
+    width: 46vw;
+    height: 46vw;
+    top: -12vw;
+    right: -10vw;
+    background: rgba(var(--navy-rgb), 0.16);
+}
+.ff-bg-blob-2 {
+    width: 38vw;
+    height: 38vw;
+    bottom: -14vw;
+    left: -12vw;
+    background: rgba(74, 74, 74, 0.10);
+    animation-duration: 30s;
+    animation-delay: -8s;
+}
+.ff-bg-blob-3 {
+    width: 26vw;
+    height: 26vw;
+    top: 40%;
+    left: 45%;
+    background: rgba(47, 90, 158, 0.12);
+    animation-duration: 36s;
+    animation-delay: -16s;
+}
+
+/* Rotating crescent rings, like the logo */
+@keyframes ff-spin {
+    to { transform: rotate(360deg); }
+}
+.ff-bg-ring {
+    position: absolute;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: transparent;
+    animation: ff-spin 60s linear infinite;
+}
+.ff-bg-ring-navy {
+    width: 70vmax;
+    height: 70vmax;
+    top: -22vmax;
+    right: -28vmax;
+    border-width: 2.2vmax;
+    border-left-color: rgba(var(--navy-rgb), 0.10);
+    border-bottom-color: rgba(var(--navy-rgb), 0.10);
+}
+.ff-bg-ring-grey {
+    width: 52vmax;
+    height: 52vmax;
+    bottom: -24vmax;
+    left: -20vmax;
+    border-width: 1.8vmax;
+    border-top-color: rgba(74, 74, 74, 0.08);
+    border-right-color: rgba(74, 74, 74, 0.08);
+    animation-direction: reverse;
+    animation-duration: 75s;
+}
+
+/* Small floating dots */
+@keyframes ff-dot-rise {
+    0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+}
+.ff-bg-dot {
+    position: absolute;
+    bottom: -20px;
+    left: calc(var(--i) * 7.3% + 2%);
+    width: calc(4px + (var(--i) * 1px) / 2);
+    height: calc(4px + (var(--i) * 1px) / 2);
+    border-radius: 50%;
+    background: rgba(var(--navy-rgb), 0.25);
+    animation: ff-dot-rise calc(16s + var(--i) * 1.3s) linear infinite;
+    animation-delay: calc(var(--i) * -2.1s);
+}
+.ff-bg-dot:nth-child(odd) {
+    background: rgba(74, 74, 74, 0.18);
+}
+
+/* ---------- Scroll reveal ---------- */
+.ff-reveal {
+    transition: clip-path 1.1s var(--ff-ease), opacity 0.8s ease, transform 0.9s var(--ff-ease);
+}
+img.ff-reveal {
+    clip-path: inset(0 0 100% 0);
+}
+img.ff-reveal.ff-in {
+    clip-path: inset(0 0 0 0);
+}
+/* Headings get a navy underline that grows in */
+.stitle.ff-reveal,
+.faqs-title h2.ff-reveal {
+    position: relative;
+}
+.stitle.ff-reveal::after,
+.faqs-title h2.ff-reveal::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 4px;
+    margin-top: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--navy), var(--charcoal));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.9s var(--ff-ease) 0.3s;
+}
+.text-center .stitle.ff-reveal::after,
+.faqs-title h2.ff-reveal::after {
+    margin-left: auto;
+    margin-right: auto;
+    transform-origin: center;
+}
+.stitle.ff-reveal.ff-in::after,
+.faqs-title h2.ff-reveal.ff-in::after {
+    transform: scaleX(1);
+}
+
+/* ---------- Click ripple ---------- */
+.submit-btn,
+.ff-side-cta {
+    position: relative;
+    overflow: hidden;
+}
+#progress {
+    overflow: hidden;
+}
+@keyframes ff-ripple {
+    from { transform: scale(0); opacity: 0.45; }
+    to   { transform: scale(1); opacity: 0; }
+}
+.ff-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: currentColor;
+    pointer-events: none;
+    animation: ff-ripple 0.7s ease-out forwards;
+}
+
+/* ---------- Small extra touches ---------- */
+/* Pulsing dot on the section label pills */
+@keyframes ff-dot-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.6); opacity: 0.4; }
+}
+.pricing-title > .radius-btn::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin: auto 0;
+    border-radius: 50%;
+    background: var(--navy);
+    animation: ff-dot-pulse 1.8s ease-in-out infinite;
+}
+
+/* Rotating logo-style ring around the hero picture */
+.hero-section-version2 .col-lg-4 > div {
+    position: relative;
+}
+@keyframes ff-spin-centered {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.hero-section-version2 .col-lg-4 > div::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 118%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-left-color: rgba(var(--navy-rgb), 0.45);
+    border-bottom-color: rgba(var(--navy-rgb), 0.45);
+    border-top-color: rgba(74, 74, 74, 0.25);
+    animation: ff-spin-centered 14s linear infinite;
+    z-index: -1;
+}
+
+/* Logo gives a small spin when the page loads */
+@keyframes ff-logo-in {
+    from { transform: rotate(-90deg) scale(0.6); opacity: 0; }
+    to   { transform: rotate(0) scale(1); opacity: 1; }
+}
+.header-section .brand-logo img {
+    animation: ff-logo-in 0.9s var(--ff-ease) both;
+}
+
+/* ---------- "Let's talk!" (footer) ---------- */
+@keyframes ff-wave {
+    0%, 60%, 100% { transform: translateY(0); }
+    30%           { transform: translateY(-14px); }
+}
+@keyframes ff-text-shine {
+    to { background-position: -200% center; }
+}
+.ff-talk-title {
+    display: inline-flex;
+    flex-wrap: wrap;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    /* main.css uses an 85px line-height for 150px text, which cuts the letters */
+    line-height: 1.15 !important;
+}
+.ff-talk-title span {
+    /* main.css gives every span its own size, so take the title's instead */
+    font: inherit;
+    line-height: inherit;
+    display: inline-block;
+    /* The shine is painted through the letters, so the box must cover the whole glyph */
+    padding: 0.06em 0.01em;
+    color: transparent !important;
+    background: linear-gradient(110deg, #FFFFFF 0%, #FFFFFF 40%, #9FB7E0 50%, #FFFFFF 60%, #FFFFFF 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation:
+        ff-wave 3.2s ease-in-out infinite,
+        ff-text-shine 4s linear infinite;
+    animation-delay: calc(var(--i) * 0.08s), 0s;
+    transition: transform 0.3s var(--ff-ease);
+}
+/* On hover the wave gets quicker */
+.ff-talk-title:hover span {
+    animation-duration: 1.2s, 4s;
+}
+
+/* Arrow button: silver like the logo, pulsing rings, spins on hover */
+@keyframes ff-ring-out {
+    from { transform: scale(0.9); opacity: 0.7; }
+    to   { transform: scale(1.7); opacity: 0; }
+}
+.ff-talk-arrow {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.ff-talk-arrow::before,
+.ff-talk-arrow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    animation: ff-ring-out 2.4s ease-out infinite;
+    pointer-events: none;
+}
+.ff-talk-arrow::after {
+    animation-delay: 1.2s;
+}
+.ff-talk-arrow img {
+    filter: grayscale(1) brightness(1.25) contrast(1.1);
+    transition: transform 0.7s var(--ff-ease), filter 0.4s ease;
+}
+.ff-talk-arrow:hover img {
+    transform: rotate(45deg) scale(1.1);
+    filter: grayscale(0.3) brightness(1.2) hue-rotate(180deg);
+}
+
+/* Divider under "Let's talk!" draws itself across */
+@keyframes ff-draw-line {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+.footer-v3-titlewrap {
+    position: relative;
+    border-bottom-color: transparent !important;
+}
+.footer-v3-titlewrap::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transform-origin: left;
+    animation: ff-draw-line 1.6s var(--ff-ease) both;
+}
+
+/* ---------- "What we offer" cards ---------- */
+@property --ff-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+@keyframes ff-border-spin {
+    to { --ff-angle: 360deg; }
+}
+@keyframes ff-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+}
+.offer-sectionv02 .offer-item {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+/* Rotating navy/grey border that appears on hover */
+.offer-sectionv02 .offer-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--ff-angle), var(--navy), var(--charcoal), var(--navy-light), var(--navy));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: ff-border-spin 4s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+.offer-sectionv02 .offer-item:hover::before {
+    opacity: 1;
+}
+/* Light sweep across the card on hover */
+.offer-sectionv02 .offer-item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(110deg, transparent, rgba(var(--navy-rgb), 0.07), transparent);
+    transform: skewX(-15deg);
+    transition: left 0.9s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+.offer-sectionv02 .offer-item:hover::after {
+    left: 130%;
+}
+
+/* Icon sits in a soft tile, bobs gently, fills navy on hover */
+.offer-sectionv02 .offer-item .icon {
+    width: 72px;
+    height: 72px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: rgba(var(--navy-rgb), 0.08);
+    color: var(--navy);
+    animation: ff-bob 3.6s ease-in-out infinite;
+    transition: background-color 0.4s ease, color 0.4s ease, border-radius 0.5s var(--ff-ease) !important;
+}
+.offer-sectionv02 .col-lg-4:nth-child(2) .offer-item .icon { animation-delay: -1.2s; }
+.offer-sectionv02 .col-lg-4:nth-child(3) .offer-item .icon { animation-delay: -2.4s; }
+.offer-sectionv02 .offer-item .icon svg {
+    width: 40px;
+    height: 40px;
+}
+.offer-sectionv02 .offer-item:hover .icon {
+    width: 72px;
+    height: 72px;
+    background: var(--navy);
+    color: #FFFFFF;
+    border-radius: 50%;
+}
+.offer-sectionv02 .offer-item:hover .icon svg {
+    color: #FFFFFF;
+}
+
+/* Big outlined number fills in on hover */
+.offer-sectionv02 .offer-item .seri {
+    font-size: 42px;
+    font-weight: 800;
+    color: transparent !important;
+    -webkit-text-stroke: 1.5px rgba(var(--navy-rgb), 0.35);
+    transition: color 0.4s ease, transform 0.5s var(--ff-ease), -webkit-text-stroke-color 0.4s ease;
+}
+.offer-sectionv02 .offer-item:hover .seri {
+    color: rgba(var(--navy-rgb), 0.15) !important;
+    -webkit-text-stroke-color: var(--navy);
+    transform: scale(1.15) translateY(-4px);
+}
+
+/* Title turns navy, "Explore More" arrow slides */
+.offer-sectionv02 .offer-item .content h5 {
+    transition: color 0.3s ease;
+}
+.offer-sectionv02 .offer-item:hover .content h5 {
+    color: var(--navy) !important;
+}
+.offer-sectionv02 .offer-item .content a {
+    font-weight: 600;
+}
+.offer-sectionv02 .offer-item:hover .content a .rot60 {
+    transform: rotate(45deg) translate(4px, -4px);
+}
+
+/* ---------- Respect users who prefer less motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
