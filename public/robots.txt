@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.fusionfashionltd.com/
+
+# Sitemaps
+Sitemap: https://www.fusionfashionltd.com/sitemap.xml

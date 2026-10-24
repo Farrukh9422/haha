@@ -1,0 +1,572 @@
+/* ==========================================================
+   Fusion Fashion - layout for every screen size
+   Mobile  : up to 575px
+   Tablet  : 576px - 991px
+   Desktop : 992px and up
+   Loaded last (see site.css).
+   ========================================================== */
+
+/* ---------- Global safety nets ---------- */
+html,
+body {
+    overflow-x: clip;
+}
+img,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---------- Header: one row on every screen ---------- */
+.header-section .container {
+    position: relative;
+}
+.ff-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 84px;
+}
+.header-section .brand-logo {
+    max-width: none;
+    flex-shrink: 0;
+}
+.ff-logo {
+    display: block;
+    width: 84px;
+    height: auto;
+}
+.ff-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+.ff-phone-text {
+    font-size: 16px;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+/* "Catalogue" button in the menu (opens the PDF in a new tab) */
+.header-section .main-navbar .custom-nav .menu-item a.ff-catalogue-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: var(--navy);
+    color: #FFFFFF !important;
+    font-size: 13px !important;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(var(--navy-rgb), 0.2);
+    transition: transform 0.3s var(--ff-ease), box-shadow 0.3s ease, background-color 0.3s ease;
+}
+.header-section .main-navbar .custom-nav .menu-item a.ff-catalogue-btn i {
+    color: #FFFFFF;
+    font-size: 11px;
+    transition: transform 0.4s var(--ff-ease);
+}
+.header-section .main-navbar .custom-nav .menu-item a.ff-catalogue-btn:hover {
+    background: var(--navy-light);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(var(--navy-rgb), 0.35);
+}
+.header-section .main-navbar .custom-nav .menu-item a.ff-catalogue-btn:hover i {
+    transform: rotate(-12deg) scale(1.15);
+}
+@media (max-width: 991px) {
+    .header-section .main-navbar .custom-nav .menu-item a.ff-catalogue-btn {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 12px 18px;
+        font-size: 15px !important;
+    }
+}
+
+/* "Address" button that opens the side panel */
+.ff-info-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid rgba(var(--navy-rgb), 0.25);
+    border-radius: 100px;
+    background: rgba(var(--navy-rgb), 0.06);
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s var(--ff-ease), box-shadow 0.3s ease;
+}
+.ff-info-btn span {
+    color: inherit;
+    font-size: inherit;
+}
+.ff-info-btn i {
+    font-size: 13px;
+    color: inherit;
+    transition: transform 0.4s var(--ff-ease);
+}
+.ff-info-btn:hover {
+    background: var(--navy);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(var(--navy-rgb), 0.25);
+}
+.ff-info-btn:hover i {
+    transform: translateY(-2px) scale(1.15);
+}
+@media (max-width: 575px) {
+    .ff-info-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+        gap: 6px;
+    }
+}
+
+/* Dropdown chevron (after the label, all screens) */
+.header-section .main-navbar .custom-nav .menu-item button.ff-nav-dropdown::after {
+    content: none;  /* main.css drew a rotated arrow here */
+}
+.ff-nav-dropdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0;
+    border: 0;
+    background: none;
+}
+.ff-chevron {
+    font-size: 10px;
+    color: inherit;
+    transition: transform 0.35s var(--ff-ease);
+}
+.menu-item.is-open .ff-chevron {
+    transform: rotate(180deg);
+}
+
+/* ---------- Desktop header (992px and up) ---------- */
+@media (min-width: 992px) {
+    .ff-nav {
+        gap: 28px;
+        min-height: 84px;
+    }
+    .ff-logo {
+        width: 76px;
+    }
+
+    /* Menu sits in the middle and never wraps */
+    .ff-menu {
+        display: flex !important;
+        flex: 1 1 auto;
+        justify-content: center;
+        min-width: 0;
+    }
+    .header-section .main-navbar .custom-nav {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 34px !important;
+        margin: 0;
+        padding: 0;
+    }
+    .header-section .main-navbar .custom-nav .menu-item {
+        padding: 30px 0;
+    }
+    .header-section .main-navbar .custom-nav .menu-item > a.ff-nav-link,
+    .header-section .main-navbar .custom-nav .menu-item > button.ff-nav-link {
+        white-space: nowrap;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.6px;
+        color: var(--ink);
+        padding-bottom: 4px;
+        background: linear-gradient(var(--navy), var(--navy)) no-repeat right bottom / 0 2px;
+        transition: color 0.3s ease, background-size 0.4s var(--ff-ease);
+    }
+    .header-section .main-navbar .custom-nav .menu-item > .ff-nav-link:hover,
+    .header-section .main-navbar .custom-nav .menu-item > .ff-nav-link.active {
+        color: var(--navy) !important;
+        background-position: left bottom;
+        background-size: 100% 2px;
+    }
+    .header-section .main-navbar .custom-nav .menu-item:hover .ff-chevron {
+        transform: rotate(180deg);
+    }
+    /* Dropdown opens right under its label */
+    .header-section .main-navbar .custom-nav .sub-menu {
+        left: -16px;
+        min-width: 190px;
+        padding: 10px 18px !important;
+    }
+    .header-section .main-navbar .custom-nav .sub-menu a {
+        font-size: 14px !important;
+        font-weight: 500;
+        text-transform: none;
+    }
+    .header-section .main-navbar .custom-nav .menu-item a.ff-catalogue-btn {
+        margin-left: 4px;
+    }
+
+    /* Right side: separated from the menu by a thin line */
+    .ff-actions {
+        gap: 14px;
+        padding-left: 22px;
+        border-left: 1px solid var(--line);
+    }
+}
+
+/* Large laptops (1200 - 1399px): hide the phone number text, WhatsApp icon stays */
+@media (max-width: 1399px) {
+    .ff-phone-text {
+        display: none;
+    }
+    .header-section .main-navbar .custom-nav {
+        gap: 26px !important;
+    }
+}
+
+/* Small laptops (992 - 1199px): tighter spacing, Address shows only its icon */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .ff-nav {
+        gap: 18px;
+    }
+    .ff-logo {
+        width: 66px;
+    }
+    .header-section .main-navbar .custom-nav {
+        gap: 18px !important;
+    }
+    .header-section .main-navbar .custom-nav .menu-item > .ff-nav-link {
+        font-size: 13px !important;
+        letter-spacing: 0.3px;
+    }
+    .header-section .main-navbar .custom-nav .menu-item a.ff-catalogue-btn {
+        padding: 5px 12px;
+        font-size: 12px !important;
+    }
+    .ff-actions {
+        gap: 10px;
+        padding-left: 16px;
+    }
+    .ff-info-btn {
+        padding: 9px 11px;
+    }
+    .ff-info-btn span {
+        display: none;
+    }
+}
+
+/* Mobile & tablet: menu becomes a dropdown card under the header */
+@media (max-width: 991px) {
+    .ff-nav {
+        min-height: 70px;
+        gap: 12px;
+    }
+    .ff-logo {
+        width: 62px;
+    }
+    .ff-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 12px;
+        right: 12px;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        padding: 8px 20px 16px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: 0 24px 50px rgba(var(--navy-rgb), 0.18);
+    }
+    .ff-menu.open {
+        display: block;
+    }
+    .header-section .main-navbar .custom-nav {
+        padding-top: 0 !important;
+        gap: 0 !important;
+    }
+    .header-section .main-navbar .custom-nav > .menu-item {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+    }
+    .header-section .main-navbar .custom-nav > .menu-item:last-child {
+        border-bottom: 0;
+    }
+    .header-section .main-navbar .custom-nav .sub-menu {
+        margin-top: 8px;
+        border-radius: 10px;
+        background: var(--surface-alt) !important;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 575px) {
+    .ff-logo {
+        width: 52px;
+    }
+    .ff-actions {
+        gap: 10px;
+    }
+    .header-ph img {
+        width: 28px;
+        height: 28px;
+    }
+    .header-section .main-navbar .navbar-toggle-btn {
+        width: 30px;
+    }
+}
+
+/* ---------- Page top spacing below the fixed header ---------- */
+@media (max-width: 991px) {
+    .breadcrumnd-banner {
+        padding: 140px 12px 70px !important;
+    }
+}
+@media (max-width: 575px) {
+    .breadcrumnd-banner {
+        padding: 120px 12px 56px !important;
+    }
+    .pt-space {
+        padding-top: 56px;
+    }
+    .pb-space {
+        padding-bottom: 56px;
+    }
+}
+
+/* ---------- Text sizes ---------- */
+@media (max-width: 575px) {
+    h1 {
+        font-size: 34px !important;
+        line-height: 1.2 !important;
+    }
+    h2,
+    .stitle {
+        font-size: 28px !important;
+        line-height: 1.25 !important;
+    }
+    p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+}
+
+/* ---------- Hero (home) ---------- */
+@media (max-width: 991px) {
+    .hero-section-version2 {
+        padding-top: 130px !important;
+        padding-bottom: 60px !important;
+    }
+    .hero-section-version2 .col-lg-4 > div {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+}
+@media (max-width: 767px) {
+    .hero-section-version2 .row > [class*="col-"] {
+        width: 100%;
+    }
+    .hero-v2-element,
+    .hero-v2-arrow {
+        display: none;
+    }
+}
+
+/* ---------- About section (home) ---------- */
+.sponsor-inner {
+    flex-wrap: wrap;
+}
+.sponsor-inner img {
+    max-height: 70px;
+    width: auto;
+}
+@media (max-width: 575px) {
+    .about-content-v02 .d-flex.flex-sm-nowrap {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    .sponsor-inner {
+        gap: 14px !important;
+    }
+    .sponsor-inner img {
+        max-height: 54px;
+    }
+}
+
+/* ---------- About page intro ---------- */
+.ff-about-img {
+    flex: 0 0 auto;
+    width: 100%;
+}
+@media (min-width: 768px) {
+    .ff-about-img {
+        width: 42%;
+    }
+}
+
+/* ---------- Offer cards ---------- */
+/* Tablet shows 2 cards per row, so let the third one use the full row */
+@media (min-width: 576px) and (max-width: 991px) {
+    .offer-sectionv02 .row > .col-lg-4:last-child {
+        width: 100%;
+    }
+}
+@media (max-width: 575px) {
+    .offer-sectionv02 .offer-item {
+        padding: 22px !important;
+    }
+    .offer-sectionv02 .offer-item .icon {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* ---------- Home video ---------- */
+/* A rounded card inside the page width, with light space below it
+   before the navy footer starts. */
+.ff-video-section {
+    position: relative;
+    padding-bottom: 120px;
+}
+/* Keep the video inside its own box. iPhones draw video on a separate layer,
+   so the box gets its own stacking context and clips it hard. */
+.software-fullwatch.ff-video-card {
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: 24px;
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 60px rgba(var(--navy-rgb), 0.18);
+}
+/* Soft navy tint so the video matches the site colors */
+.software-fullwatch.ff-video-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(var(--navy-rgb), 0) 55%, rgba(var(--navy-rgb), 0.35) 100%);
+    pointer-events: none;
+}
+/* Fixed shape instead of a share of the screen height
+   (iPhone's screen height changes as the address bar hides and shows) */
+.software-fullwatch .video-wrapper {
+    position: relative;
+    height: auto !important;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-radius: inherit;
+    transform: translateZ(0);
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+.ff-bg-video {
+    display: block;
+    object-fit: cover;
+    pointer-events: none;
+}
+@media (max-width: 991px) {
+    .ff-video-section {
+        padding-bottom: 80px;
+    }
+    .software-fullwatch .video-wrapper {
+        aspect-ratio: 16 / 9;
+    }
+}
+@media (max-width: 575px) {
+    .ff-video-section {
+        padding-bottom: 56px;
+    }
+    .software-fullwatch.ff-video-card {
+        border-radius: 16px;
+    }
+}
+
+/* Footer always sits above the page content before it,
+   with breathing room between the video and "Let's talk!" */
+footer {
+    position: relative;
+    z-index: 1;
+}
+footer.footer-version-three {
+    padding-top: 110px;
+}
+@media (max-width: 991px) {
+    footer.footer-version-three {
+        padding-top: 70px;
+    }
+}
+@media (max-width: 575px) {
+    footer.footer-version-three {
+        padding-top: 52px;
+    }
+}
+.ff-talk-title,
+.ff-talk-title:hover {
+    text-decoration: none !important;
+}
+
+/* ---------- Products (leather / textile) ---------- */
+@media (max-width: 767px) {
+    .case-study .blog-widget-item h5 div {
+        font-size: 17px;
+    }
+}
+
+/* ---------- Services accordion ---------- */
+.service-tabing-wrap img {
+    max-width: 100%;
+    height: auto;
+}
+@media (max-width: 767px) {
+    .service-tabing-wrap .accordion-single {
+        padding: 16px 18px !important;
+    }
+}
+
+/* ---------- Contact page ---------- */
+@media (max-width: 575px) {
+    .contact-section .contact-content form .d-flex {
+        flex-direction: column;
+    }
+}
+
+/* ---------- Footer ---------- */
+@media (max-width: 991px) {
+    .footer-v3-titlewrap {
+        justify-content: space-between;
+        margin-bottom: 50px;
+    }
+}
+@media (max-width: 575px) {
+    .footer-v3-titlewrap {
+        margin-bottom: 36px;
+    }
+    footer .footer-widget {
+        text-align: left;
+    }
+    footer .footer-bottom-version-two p,
+    footer .footer-bottom-version-two a {
+        font-size: 14px;
+    }
+}
+
+/* ---------- Side panel & back-to-top on small screens ---------- */
+@media (max-width: 575px) {
+    .ff-side {
+        width: 100%;
+        max-width: 100%;
+    }
+    #progress {
+        right: 14px;
+        bottom: 14px;
+    }
+}
